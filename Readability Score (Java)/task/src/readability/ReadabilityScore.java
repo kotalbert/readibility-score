@@ -62,10 +62,28 @@ public class ReadabilityScore {
      * @return the readability score category
      * @see <a href="https://en.wikipedia.org/wiki/Automated_readability_index">Automated readability index</a>
      */
-    public int getScore() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public double getScore() {
+        int characters = countCharacters();
+        int words = countWords();
+        int sentences = countSentences();
+
+        return 4.71 * ((double) characters / words) + 0.5 * ((double) words / sentences) - 21.43;
 
     }
 
+    public String getAgeRange(double score) {
+        assert score >= 1 && score <= 14 : "Score must be between 1 and 14";
+        int scoreRounded = (int) Math.ceil(getScore());
+        return scoreMap.getOrDefault(scoreRounded, "Unknown");
+    }
 
+    public void printCounts() {
+        System.out.println("Words: " + countWords());
+        System.out.println("Sentences: " + countSentences());
+        System.out.println("Characters: " + countCharacters());
+    }
 }
+
+
+
+
