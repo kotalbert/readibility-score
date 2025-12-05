@@ -81,6 +81,56 @@ public class ReadabilityScore {
         System.out.println("Words: " + countWords());
         System.out.println("Sentences: " + countSentences());
         System.out.println("Characters: " + countCharacters());
+        System.out.println("Syllables: " + countSyllables());
+        System.out.println("Polysyllables: " + countPolysyllables());
+    }
+
+    private int countPolysyllables() {
+        String[] words = text.split("\\s+");
+        int polysyllableCount = 0;
+        for (String word : words) {
+            if (countSyllablesInWord(word) > 2) {
+                polysyllableCount++;
+            }
+        }
+        return polysyllableCount;
+    }
+
+    /**
+     * Count the number of syllables in the text.
+     *
+     * @return number of syllables
+     */
+    private int countSyllables() {
+        // split text into words
+        // for each word, count syllables
+
+        String[] words = text.split("\\s+");
+        int syllableCount = 0;
+        for (String word : words) {
+            syllableCount += countSyllablesInWord(word);
+        }
+        return syllableCount;
+
+    }
+
+    /**
+     * Count the number of syllables in a word.
+     * <p>
+     * For now simply count the number of vowels as syllables.
+     *
+     * @param word the word to count syllables in
+     * @return number of syllables in the word
+     */
+    private int countSyllablesInWord(String word) {
+        String lowerWord = word.toLowerCase();
+        int count = 0;
+        for (char c : lowerWord.toCharArray()) {
+            if ("aeiouy".indexOf(c) != -1) {
+                count++;
+            }
+        }
+        return Math.max(count, 1); // at least one syllable
     }
 }
 
